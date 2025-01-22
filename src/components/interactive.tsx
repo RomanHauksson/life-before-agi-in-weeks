@@ -1,13 +1,29 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { getAgiDate } from "@/lib/get-agi-date";
 import { Input } from "@/components/ui/input";
 import { Timeline } from "@/components/timeline";
 import { useQuery } from "@tanstack/react-query";
+import Cookies from "js-cookie";
+
+const BIRTHDAY_COOKIE_KEY = "user-birthday";
 
 const Interactive: React.FC = () => {
   const [birthdate, setBirthdate] = useState<string>("");
+
+  useEffect(() => {
+    const savedBirthday = Cookies.get(BIRTHDAY_COOKIE_KEY);
+    if (savedBirthday) {
+      setBirthdate(savedBirthday);
+    }
+  }, []);
+
+  const handleBirthdayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDate = e.target.value;
+    setBirthdate(newDate);
+    Cookies.set(BIRTHDAY_COOKIE_KEY, newDate, { expires: 365 }); // Cookie expires in 1 year
+  };
 
   const {
     data: agiDate,
@@ -29,7 +45,7 @@ const Interactive: React.FC = () => {
           type="date"
           id="birthday"
           value={birthdate}
-          onChange={(e) => setBirthdate(e.target.value)}
+          onChange={handleBirthdayChange}
         />
       </div>
       {birthdate !== "" &&
