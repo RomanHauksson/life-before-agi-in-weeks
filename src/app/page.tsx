@@ -11,7 +11,8 @@ export default function Home() {
       </main>
       <footer className="text-center text-gray-500 mx-4">
         <p>
-          Based on Bryan Braun&apos;s{" "}
+          Made by <a href="https://roman.technology">Roman Hauksson</a>. Based
+          on Bryan Braun&apos;s{" "}
           <a href="https://www.bryanbraun.com/your-life/weeks.html">
             interactive version
           </a>{" "}
