@@ -3,7 +3,7 @@ import _ from "lodash";
 import { Fragment } from "react";
 import { format } from "date-fns";
 
-export function GridTimeline({
+export function Timeline({
   birthDate,
   currentDate,
   agiDate,
@@ -22,42 +22,51 @@ export function GridTimeline({
   const currentMiliseconds = currentDate.getTime();
   const agiYear = agiDate.getFullYear();
   const years = _.range(birthYear, agiYear + 1);
+  console.log("birthYear: ", birthYear);
+  console.log("birthdate: ", birthDate);
+  console.log("years: ", years);
   const msPerWeek = 1000 * 60 * 60 * 24 * 7;
   return (
-    <div>
-      <div className="mt-4">
-        <p className="mt-4">
-          According to{" "}
-          <a href="https://www.metaculus.com/questions/5121/date-of-artificial-general-intelligence/">
-            Metaculus
-          </a>
-          , the median date we should expect AGI to arrive is{" "}
-          {format(agiDate, "MMMM d, yyyy")}.
-        </p>
-      </div>
-
+    <>
       <div
         style={{
-          gridTemplateColumns: "3rem repeat(52, 1fr)",
-          gridTemplateRows: "2rem repeat(" + years.length + ", 1fr)",
+          gridTemplateColumns: "1fr 1fr repeat(52, 1fr)",
+          gridTemplateRows: "1rem 1rem repeat(" + years.length + ", 1fr)",
         }}
-        className="grid gap-0.5 w-full"
+        className="grid gap-0.5 w-full mb-4"
       >
-        {/* <div className="bg-green-600 h-4 w-4 col-start-1 row-start-1" />
-      <div className="bg-red-600 h-4 w-4 col-start-2 row-start-2" /> */}
+        <div
+          style={{
+            gridColumnStart: 3,
+            gridColumnEnd: -1,
+            gridRowStart: 1,
+            alignSelf: "end",
+          }}
+        >
+          Week number →
+        </div>
+
+        {/* year number label */}
+
+        <div
+          style={{ gridColumnStart: 1, gridRowStart: 3, gridRowEnd: -1 }}
+          className="writing-vertical whitespace-nowrap"
+        >
+          <span style={{ writingMode: "vertical-rl" }}>Year →</span>
+        </div>
 
         {/* week labels */}
         {weekNumbers.map((weekNumber) =>
-          weekNumber % 5 === 0 ? (
+          (weekNumber + 1) % 5 === 0 || weekNumber === 0 ? (
             <div
               key={weekNumber}
               className="bg-gray-200 w-0 flex items-end text-sm"
               style={{
-                gridColumnStart: weekNumber + 2,
-                gridRowStart: 1,
+                gridColumnStart: weekNumber + 3,
+                gridRowStart: 2,
               }}
             >
-              {weekNumber}
+              {weekNumber + 1}
             </div>
           ) : null
         )}
@@ -72,10 +81,10 @@ export function GridTimeline({
                 Math.abs(year - agiYear) > 1)) && (
               <div
                 style={{
-                  gridColumnStart: 1,
-                  gridRowStart: yearIndex + 2,
+                  gridColumnStart: 2,
+                  gridRowStart: yearIndex + 3,
                 }}
-                className="bg-gray-200 h-0 text-right pr-2"
+                className="bg-gray-200 h-0 text-right pr-2 leading-none"
               >
                 {year}
               </div>
@@ -99,8 +108,8 @@ export function GridTimeline({
                   )}
                   key={weekNumber}
                   style={{
-                    gridColumnStart: weekNumber + 2,
-                    gridRowStart: yearIndex + 2,
+                    gridColumnStart: weekNumber + 3,
+                    gridRowStart: yearIndex + 3,
                   }}
                 />
               );
@@ -108,6 +117,28 @@ export function GridTimeline({
           </Fragment>
         ))}
       </div>
-    </div>
+      <div className="flex flex-col gap-2 items-center text-center text-lg font-medium">
+        <p>
+          According to{" "}
+          <a
+            className="text-blue-500 hover:text-blue-700 underline"
+            href="https://www.metaculus.com/questions/5121/date-of-artificial-general-intelligence/"
+          >
+            Metaculus
+          </a>
+          , the median date we should expect AGI to arrive is{" "}
+          <span className="font-bold">{format(agiDate, "MMMM d, yyyy")}</span>.
+        </p>
+        <p>
+          You have lived{" "}
+          {Math.round(
+            ((currentMiliseconds - birthMiliseconds) /
+              (agiMiliseconds - birthMiliseconds)) *
+              100
+          )}
+          % of your pre-AGI life.
+        </p>
+      </div>
+    </>
   );
 }
