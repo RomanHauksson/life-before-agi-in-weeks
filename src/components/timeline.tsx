@@ -103,7 +103,7 @@ export function Timeline({
                       squareDateInMiliseconds > agiMiliseconds
                       ? "bg-white"
                       : squareDateInMiliseconds < currentMiliseconds
-                      ? "bg-green-500"
+                      ? "bg-red-500"
                       : "bg-gray-300"
                   )}
                   key={weekNumber}

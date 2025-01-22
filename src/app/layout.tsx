@@ -16,6 +16,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Your life (before the singularity) in weeks",
   description: "A visualization of how much of your pre-AGI life has passed.",
+  icons: {
+    icon: "/square.svg",
+  },
 };
 
 export default function RootLayout({
