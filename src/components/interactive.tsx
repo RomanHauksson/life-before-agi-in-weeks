@@ -33,7 +33,9 @@ const Interactive: React.FC = () => {
         />
       </div>
       {birthdate !== "" &&
-        (agiDateIsLoading ? (
+      new Date(birthdate + "T12:00:00") >= new Date("1900-01-01") &&
+      new Date(birthdate + "T12:00:00") <= new Date() ? (
+        agiDateIsLoading ? (
           <div>Loading...</div>
         ) : agiDateError || !agiDate ? (
           <div>Error retrieving expected AGI arrival date from Metaculus.</div>
@@ -43,7 +45,10 @@ const Interactive: React.FC = () => {
             currentDate={new Date()}
             agiDate={agiDate}
           />
-        ))}
+        )
+      ) : birthdate !== "" ? (
+        <div>Please enter a date between 1900 and today.</div>
+      ) : null}
     </>
   );
 };
