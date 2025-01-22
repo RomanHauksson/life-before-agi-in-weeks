@@ -30,7 +30,7 @@ export function Timeline({
     <>
       <div
         style={{
-          gridTemplateColumns: "1fr 1fr repeat(52, 1fr)",
+          gridTemplateColumns: "1rem 1fr repeat(52, 1fr)",
           gridTemplateRows: "1rem 1rem repeat(" + years.length + ", 1fr)",
         }}
         className="grid gap-0.5 w-full mb-4"
@@ -50,7 +50,7 @@ export function Timeline({
 
         <div
           style={{ gridColumnStart: 1, gridRowStart: 3, gridRowEnd: -1 }}
-          className="writing-vertical whitespace-nowrap"
+          className="writing-vertical whitespace-nowrap leading-none"
         >
           <span style={{ writingMode: "vertical-rl" }}>Year →</span>
         </div>
